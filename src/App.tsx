@@ -53,6 +53,9 @@ const App = () => {
     const [privacyFilter, setPrivacyFilter] = useState('all')
     const [friendFilter, setFriendFilter] = useState(false)
     const [avatarColorFilter, setAvatarColorFilter] = useState('any')
+    const [shownId, setShownId] = useState<number | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+
 
     const filteredGroups = groups.filter(group => {
         if (privacyFilter === 'closed' && !group.closed) return false;
@@ -74,6 +77,7 @@ const App = () => {
     useEffect(() => {
         const fetchGroups = async () => {
             try {
+                setIsLoading(true);
                 await new Promise(resolve => setTimeout(resolve, 1000));
                 const response = await axios.get('/api/groups.json');
                 /*const data: GetGroupsResponse = response.data; данный вариант подходит для настоящего запроса с бэкенда
@@ -87,6 +91,8 @@ const App = () => {
 
             } catch (error) {
                 console.error('Ошибка при запросе данных о группах:', error);
+            } finally {
+                setIsLoading(false);
             }
         };
 
@@ -94,7 +100,7 @@ const App = () => {
         });
     }, []);
 
-    const [shownId, setShownId] = useState<number | null>(null);
+
 
     const handleShownChange: PopoverOnShownChange = useCallback((value, reason) => {
         if (!value) {
@@ -153,9 +159,12 @@ const App = () => {
                                         </label>
                                     </Div>
                                 </Card>
-                                {filteredGroups !== undefined ? (
-                                    filteredGroups.length > 0 ? (
-                                        filteredGroups.map((group) => (
+                                {isLoading ? (
+                                    <Title style={{padding: "10px"}}>Загрузка...</Title>
+                                ) : (
+                                    filteredGroups !== undefined ? (
+                                        filteredGroups.length > 0 ? (
+                                            filteredGroups.map((group) => (
                                             <SimpleCell
                                                 key={group.id}
                                                 before={<Avatar
@@ -229,10 +238,11 @@ const App = () => {
                                                 </Header>
                                             </SimpleCell>
                                         ))
-                                    ) : (
-                                        <Title>Загрузка...</Title>
-                                    )
-                                ) : null}
+                                        ) : (
+                                            <Title style={{padding: "10px"}}>Нет доступных групп</Title>
+                                        )
+                                    ) : null
+                                )}
                             </Group>
                         </Panel>
                     </View>
