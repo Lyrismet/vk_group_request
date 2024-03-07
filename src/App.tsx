@@ -95,12 +95,15 @@ const App = () => {
                                                     mode="primary"
                                                     size="large"
                                                     aside={<Subhead style={group.closed ? {color: '#e97171'} : {color: '#71c971'}} weight="3">{group.closed ? 'Закрытая' : 'Открытая'}</Subhead>}
-                                                    subtitle={`Кол-во участников: ${group.members_count}`}
+                                                    subtitle={<Subhead>{`Кол-во участников: ${group.members_count}`}
+                                                        <Subhead style={{marginTop:10}}>
+                                                            <Paragraph style={{color: "white"}} weight="1">{group.friends && group.friends.length > 0 ? 'Друзья: ' + group.friends.length : ''}</Paragraph>
+                                                        </Subhead>
+                                                </Subhead>}
                                                     subtitleComponent="div"
                                                 >
                                                     {group.name}
                                                 </Header>
-                                                <Paragraph weight="1">Друзья: {group.friends?.length}</Paragraph>
                                             </SimpleCell>
                                         ))
                                     ) : (
