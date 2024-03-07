@@ -14,6 +14,7 @@ import {
     Avatar, Paragraph, Subhead, Title,
 } from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
+import {InitialsAvatarTextGradients} from "@vkontakte/vkui/dist/components/Avatar/Avatar";
 
 /* данный интерфейс требуется для запроса с реального бекенда для проверки значения result
 interface GetGroupsResponse {
@@ -132,7 +133,7 @@ const App = () => {
                                                     size={100}
                                                     src="#"
                                                     initials={group.name[0] + group.name[1]}
-                                                    gradientColor={getColor(group.avatar_color)}
+                                                    gradientColor={getColor(group.avatar_color) as InitialsAvatarTextGradients}
                                                     style={group.avatar_color === 'white' ? {
                                                         backgroundImage: 'linear-gradient(135deg, #ffffff, #dddddd)',
                                                         color: 'black'
