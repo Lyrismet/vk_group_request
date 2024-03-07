@@ -90,7 +90,8 @@ const App = () => {
             }
         };
 
-        fetchGroups();
+        fetchGroups().then(() => {
+        });
     }, []);
 
     const [shownId, setShownId] = useState<number | null>(null);
