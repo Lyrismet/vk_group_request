@@ -87,6 +87,25 @@ const App = () => {
         fetchGroups();
     }, []);
 
+    const [shownId, setShownId] = useState<number | null>(null);
+
+    const handleShownChange: PopoverOnShownChange = useCallback((value, reason) => {
+        if (!value) {
+            switch (reason) {
+                case 'callback':
+                case 'escape-key':
+                case 'click-outside':
+                    setShownId(null);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }, []);
+
+    const handleFriendButtonClick = (groupId: number) => {
+        setShownId(groupId !== shownId ? groupId : null);
+    };
     return (
         <AppRoot>
             <SplitLayout header={platform !== 'vkcom' && <PanelHeader delimiter="none"/>}>
@@ -150,8 +169,51 @@ const App = () => {
                                                         weight="3">{group.closed ? 'Закрытая' : 'Открытая'}</Subhead>}
                                                     subtitle={<Subhead>{`Участники: ${group.members_count}`}
                                                         <Subhead style={{marginTop: 10}}>
-                                                            <Paragraph style={{color: "white"}}
-                                                                       weight="1">{group.friends && group.friends.length > 0 ? 'Друзья: ' + group.friends.length : ''}</Paragraph>
+                                                            <Paragraph className="paragraph"
+                                                                       style={{color: "white", position: "relative"}}
+                                                                       weight="1">
+                                                                {group.friends && group.friends.length > 0 ? (<Popover
+                                                                        trigger="manual"
+                                                                        shown={shownId === group.id}
+                                                                        role="dialog"
+                                                                        aria-describedby={`friends-${group.id}`}
+                                                                        placement="right"
+                                                                        content={({onClose}) => (
+                                                                            <div style={{
+                                                                                display: 'flex',
+                                                                                position: 'relative',
+                                                                                width: 180,
+                                                                                height: 100
+                                                                            }}>
+                                                                                <div style={{
+                                                                                    position: 'absolute',
+                                                                                    top: 0,
+                                                                                    right: 0
+                                                                                }}>
+                                                                                    <IconButton onClick={onClose}>
+                                                                                        <IoCloseCircle style={{top:"-6px", right:"3px"}} size={24}/>
+                                                                                    </IconButton>
+                                                                                </div>
+                                                                                <div style={{
+                                                                                    margin: 'auto',
+                                                                                    textAlign: 'center'
+                                                                                }}>
+                                                                                    {group.friends?.map((friend, id) => (
+                                                                                        <div
+                                                                                            key={id}>{friend.last_name + ' ' + friend.first_name}</div>
+                                                                                    ))}
+                                                                                </div>
+                                                                            </div>
+                                                                        )}
+                                                                        onShownChange={handleShownChange}>
+
+                                                                    <Button id={`friends-${group.id}`} mode="secondary"
+                                                                            onClick={() => handleFriendButtonClick(group.id)}>
+                                                                        {`Друзья: ${group.friends.length}`}
+                                                                    </Button>
+                                                                </Popover>
+                                                                ) : ''}
+                                                            </Paragraph>
                                                         </Subhead>
                                                     </Subhead>}
                                                     subtitleComponent="div"
