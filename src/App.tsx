@@ -11,8 +11,13 @@ import {
     Group,
     Header,
     SimpleCell,
-    Avatar, Paragraph, Subhead, Title,
+    Avatar,
+    Paragraph,
+    Subhead,
+    Title,
+    Div, Card,
 } from '@vkontakte/vkui';
+import './App.css'
 import '@vkontakte/vkui/dist/vkui.css';
 import {InitialsAvatarTextGradients} from "@vkontakte/vkui/dist/components/Avatar/Avatar";
 
@@ -90,10 +95,9 @@ const App = () => {
                         <Panel id="main">
                             <PanelHeader>VKUI</PanelHeader>
                             <Group header={<Header mode="secondary">Groups</Header>}>
-                                <Panel>
-                                    <SimpleCell>
-                                        <Header>Сортировка</Header>
-
+                                <Card mode="outline">
+                                    <Header>Сортировка</Header>
+                                    <Div>
                                         <label>Приватность:
                                             <select value={privacyFilter}
                                                     onChange={(e) => setPrivacyFilter(e.target.value)}>
@@ -116,14 +120,13 @@ const App = () => {
                                                 <option value="none">Без цвета</option>
                                             </select>
                                         </label>
-
                                         <label>
                                             <input type="checkbox" checked={friendFilter}
                                                    onChange={(e) => setFriendFilter(e.target.checked)}/>
                                             Только группы с друзьями
                                         </label>
-                                    </SimpleCell>
-                                </Panel>
+                                    </Div>
+                                </Card>
                                 {filteredGroups !== undefined ? (
                                     filteredGroups.length > 0 ? (
                                         filteredGroups.map((group) => (
@@ -145,7 +148,7 @@ const App = () => {
                                                     aside={<Subhead
                                                         style={group.closed ? {color: '#e97171'} : {color: '#71c971'}}
                                                         weight="3">{group.closed ? 'Закрытая' : 'Открытая'}</Subhead>}
-                                                    subtitle={<Subhead>{`Кол-во участников: ${group.members_count}`}
+                                                    subtitle={<Subhead>{`Участники: ${group.members_count}`}
                                                         <Subhead style={{marginTop: 10}}>
                                                             <Paragraph style={{color: "white"}}
                                                                        weight="1">{group.friends && group.friends.length > 0 ? 'Друзья: ' + group.friends.length : ''}</Paragraph>
