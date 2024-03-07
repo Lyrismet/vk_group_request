@@ -15,8 +15,14 @@ import {
     Paragraph,
     Subhead,
     Title,
-    Div, Card,
+    Div,
+    Card,
+    PopoverOnShownChange,
+    Popover,
+    IconButton,
+    Button
 } from '@vkontakte/vkui';
+import {IoCloseCircle} from "react-icons/io5";
 import './App.css'
 import '@vkontakte/vkui/dist/vkui.css';
 import {InitialsAvatarTextGradients} from "@vkontakte/vkui/dist/components/Avatar/Avatar";
