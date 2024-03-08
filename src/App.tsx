@@ -125,7 +125,7 @@ const App = () => {
                 <SplitCol autoSpaced>
                     <View activePanel="main">
                         <Panel id="main">
-                            <PanelHeader>VKUI</PanelHeader>
+                            <PanelHeader>VKUI. Исходный код: <a target="_blank" href="https://github.com/Lyrismet/vk_group_request">https://github.com/Lyrismet/vk_group_request</a> </PanelHeader>
                             <Group header={<Header mode="secondary">Groups</Header>}>
                                 <Card mode="outline">
                                     <Header>Сортировка</Header>

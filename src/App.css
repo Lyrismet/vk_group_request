@@ -18,7 +18,9 @@ input[type="checkbox"]{
     margin-right: 10px;
     transform:scale(1.3);
 }
-
+a{
+    color: #ffdf76;
+}
 @media screen and (max-width: 600px) {
     label{
         margin-top: 6px;
